@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
-function App() {
+import { OptionsRow, options } from './features';
+
+const App = () => {
+  const [rows, setRows] = useState([<OptionsRow key={0} />]);
+
+  function onClick() {
+    if (rows.length < Object.keys(options).length) {
+      setRows(prevRows => [...prevRows, <OptionsRow key={rows.length} />]);
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {rows}
+      <button type="button" onClick={onClick}>
+        add
+      </button>
     </div>
   );
-}
+};
 
 export default App;
