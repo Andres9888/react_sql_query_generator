@@ -57,7 +57,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 
   function onChange(e) {
     setdropdown(e.target.value);
-    setdropdownType(Store.options[e.target.value]);
+    Store.options[e.target.value].isSelected = true;
   }
   return (
     <OptionsRowContainer>
@@ -65,11 +65,13 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
         remove
       </button>
       <Select id="options" name="options" value={dropDown} onChange={onChange}>
-        {Object.keys(Store.options).map(key => (
-          <option key={key} value={key}>
-            {key}
-          </option>
-        ))}
+        {Object.keys(Store.options).map(key =>
+          Store.options[key].isSelected ? null : (
+            <option key={key} value={key}>
+              {key}
+            </option>
+          )
+        )}
       </Select>
       {renderOperatorsOptions()}
       {renderInput()}

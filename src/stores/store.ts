@@ -4,15 +4,15 @@ import { observable } from 'mobx';
 
 class Store {
   @observable options = {
-    Domain: 'string',
-    'User Email': 'string',
-    'Screen Width': 'number',
-    'Screen Height': 'number',
-    '# of Visits': 'number',
-    'First Name': 'string',
-    'Last Name': 'string',
-    'Page Response time (ms)': 'number',
-    'Page Path': 'string',
+    Domain: { type: 'string', isSelected: false },
+    'User Email': { type: 'string', isSelected: false },
+    'Screen Width': { type: 'number', isSelected: false },
+    'Screen Height': { type: 'number', isSelected: false },
+    '# of Visits': { type: 'number', isSelected: false },
+    'First Name': { type: 'string', isSelected: false },
+    'Last Name': { type: 'string', isSelected: false },
+    'Page Response time (ms)': { type: 'number', isSelected: false },
+    'Page Path': { type: 'string', isSelected: false },
   };
 }
 
