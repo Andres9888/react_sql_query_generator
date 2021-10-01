@@ -17,6 +17,10 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
   const [numberOperatorsSelected, setNumberOperatorsSelected] = useState('equals');
   const [inputValue, setInputValue] = useState('');
 
+  function onInputChange(e) {
+    setInputValue(e.target.value);
+    Store.options[dropDown].userInput = e.target.value;
+  }
   const renderOperatorsOptions = () => {
     if (dropDownType === 'string') {
       return <StringOperatorsOptions />;
@@ -35,7 +39,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
   };
   const renderInput = () => {
     if (dropDownType === 'string') {
-      return <Input type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} />;
+      return <Input type="text" value={inputValue} onChange={onInputChange} />;
     }
 
     if (dropDownType === 'number' && numberOperatorsSelected !== 'between') {
@@ -57,7 +61,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 
   function onChange(e) {
     setdropdown(e.target.value);
-    Store.options[e.target.value].isSelected = true;
+    setdropdownType(Store.options[e.target.value].type);
   }
   return (
     <OptionsRowContainer>

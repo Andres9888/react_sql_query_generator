@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 
 class Store {
   @observable options = {
-    Domain: { type: 'string', isSelected: false },
+    Domain: { type: 'string', isSelected: false, userInput: null },
     'User Email': { type: 'string', isSelected: false },
     'Screen Width': { type: 'number', isSelected: false },
     'Screen Height': { type: 'number', isSelected: false },
