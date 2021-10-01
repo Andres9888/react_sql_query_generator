@@ -1,24 +1,61 @@
 import './App.css';
-import { useState } from 'react';
+import { useContext, useState, useCallback } from 'react';
 
-import { OptionsRow, options } from './features';
+import { observer } from 'mobx-react-lite';
+import styled from 'styled-components';
 
-const App = () => {
-  const [rows, setRows] = useState([<OptionsRow key={0} />]);
+import { OptionsRow } from './features';
+import { StoreContext } from './stores/store';
+
+const App = observer(() => {
+  const Store = useContext(StoreContext);
+  const [rows, setRows] = useState([
+    <OptionsRow
+      key={0}
+      rowIndex={0}
+      onRemove={useCallback(rowIndex => {
+        const newRows = [...rows];
+        newRows.splice(rowIndex, 1);
+        setRows(newRows);
+      }, [])}
+    />,
+  ]);
+
+  const onRemove = useCallback(
+    rowIndex => {
+      const newRows = [...rows];
+      newRows.splice(rowIndex, 1);
+      setRows(newRows);
+    },
+    [rows]
+  );
 
   function onClick() {
-    if (rows.length < Object.keys(options).length) {
-      setRows(prevRows => [...prevRows, <OptionsRow key={rows.length} />]);
+    if (rows.length < Object.keys(Store.options).length) {
+      setRows(prevRows => [
+        ...prevRows,
+        <OptionsRow key={rows.length} rowIndex={rows.length} onRemove={onRemove} />,
+      ]);
     }
   }
   return (
-    <div className="App">
+    <Container>
       {rows}
       <button type="button" onClick={onClick}>
         add
       </button>
-    </div>
+      <button type="button">search</button>
+    </Container>
   );
-};
+});
 
 export default App;
+
+const Container = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  max-width: 840px;
+`;
