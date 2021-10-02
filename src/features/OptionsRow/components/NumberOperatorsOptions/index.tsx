@@ -1,20 +1,17 @@
 import styled from 'styled-components';
 
 interface Props {
-  numberOperatorsSelected: string;
-  setNumberOperatorsSelected: (seletedNumberOperator: string) => void;
+  operatorsSelected: string;
+  onOperatorChange: (selectedOperator: string) => void;
 }
 
-export const NumberOperatorsOptions = ({
-  setNumberOperatorsSelected,
-  numberOperatorsSelected,
-}: Props) => {
+export const NumberOperatorsOptions = ({ onOperatorChange, operatorsSelected }: Props) => {
   return (
     <Select
       id="numberOperators"
       name="numberOperators"
-      value={numberOperatorsSelected}
-      onChange={e => setNumberOperatorsSelected(e.target.value)}
+      value={operatorsSelected}
+      onChange={e => onOperatorChange(e.target.value)}
     >
       <option value="equals">Equals</option>
       <option value="between">Between</option>

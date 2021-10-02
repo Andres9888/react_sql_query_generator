@@ -14,23 +14,32 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 
   const [dropDown, setdropdown] = useState('Domain');
   const [dropDownType, setdropdownType] = useState('string');
-  const [numberOperatorsSelected, setNumberOperatorsSelected] = useState('equals');
+  const [operatorsSelected, setOperatorsSelected] = useState('equals');
   const [inputValue, setInputValue] = useState('');
 
   function onInputChange(e) {
     setInputValue(e.target.value);
     Store.options[dropDown].userInput = e.target.value;
   }
+  function onOperatorChange(selectedOperator) {
+    setOperatorsSelected(selectedOperator);
+    Store.options[dropDown].operatorsSelected = selectedOperator;
+  }
   const renderOperatorsOptions = () => {
     if (dropDownType === 'string') {
-      return <StringOperatorsOptions />;
+      return (
+        <StringOperatorsOptions
+          operatorsSelected={operatorsSelected}
+          onOperatorChange={onOperatorChange}
+        />
+      );
     }
 
     if (dropDownType === 'number') {
       return (
         <NumberOperatorsOptions
-          numberOperatorsSelected={numberOperatorsSelected}
-          setNumberOperatorsSelected={setNumberOperatorsSelected}
+          operatorsSelected={operatorsSelected}
+          onOperatorChange={onOperatorChange}
         />
       );
     }
@@ -42,16 +51,16 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
       return <Input type="text" value={inputValue} onChange={onInputChange} />;
     }
 
-    if (dropDownType === 'number' && numberOperatorsSelected !== 'between') {
-      return <Input type="number" />;
+    if (dropDownType === 'number' && operatorsSelected !== 'between') {
+      return <Input type="number" value={inputValue} onChange={onInputChange} />;
     }
 
-    if (dropDownType === 'number' && numberOperatorsSelected === 'between') {
+    if (dropDownType === 'number' && operatorsSelected === 'between') {
       return (
         <div>
-          <Input isSmall type="text" />
+          <Input isSmall type="text" value={inputValue} onChange={onInputChange} />
           <h2>and</h2>
-          <Input isSmall type="text" />
+          <Input isSmall type="text" value={inputValue} onChange={onInputChange} />
         </div>
       );
     }
@@ -59,7 +68,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
     return null;
   };
 
-  function onChange(e) {
+  function onSelectChange(e) {
     setdropdown(e.target.value);
     setdropdownType(Store.options[e.target.value].type);
   }
@@ -68,7 +77,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
       <button type="button" onClick={() => onRemove(rowIndex)}>
         remove
       </button>
-      <Select id="options" name="options" value={dropDown} onChange={onChange}>
+      <Select id="options" name="options" value={dropDown} onChange={onSelectChange}>
         {Object.keys(Store.options).map(key =>
           Store.options[key].isSelected ? null : (
             <option key={key} value={key}>

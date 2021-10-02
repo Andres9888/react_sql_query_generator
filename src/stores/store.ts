@@ -4,15 +4,55 @@ import { observable } from 'mobx';
 
 class Store {
   @observable options = {
-    Domain: { type: 'string', isSelected: false, userInput: null },
-    'User Email': { type: 'string', isSelected: false },
-    'Screen Width': { type: 'number', isSelected: false },
-    'Screen Height': { type: 'number', isSelected: false },
-    '# of Visits': { type: 'number', isSelected: false },
-    'First Name': { type: 'string', isSelected: false },
-    'Last Name': { type: 'string', isSelected: false },
-    'Page Response time (ms)': { type: 'number', isSelected: false },
-    'Page Path': { type: 'string', isSelected: false },
+    Domain: { type: 'string', isSelected: false, operatorsSelected: 'equals', userInput: 'test' },
+    'User Email': {
+      type: 'string',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    'Screen Width': {
+      type: 'number',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    'Screen Height': {
+      type: 'number',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    '# of Visits': {
+      type: 'number',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    'First Name': {
+      type: 'string',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    'Last Name': {
+      type: 'string',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    'Page Response time (ms)': {
+      type: 'number',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
+    'Page Path': {
+      type: 'string',
+      isSelected: false,
+      operatorsSelected: 'equals',
+      userInput: null,
+    },
   };
 }
 
