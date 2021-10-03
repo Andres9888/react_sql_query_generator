@@ -81,4 +81,9 @@ const Header = styled.h2`
   align-items: left;
   align-self: start;
   display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 13px;
+  margin-top: 40px;
 `;

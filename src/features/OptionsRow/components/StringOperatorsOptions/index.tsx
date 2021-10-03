@@ -23,6 +23,9 @@ export const StringOperatorsOptions = ({ operatorsSelected, onOperatorChange }: 
 
 const Select = styled.select`
   display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
   height: 27px;
   width: 238px;
 `;

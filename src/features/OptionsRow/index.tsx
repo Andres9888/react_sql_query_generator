@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 
+import { VscChromeClose } from 'react-icons/vsc';
 import { StoreContext } from 'stores/store';
 import styled from 'styled-components';
 
@@ -74,9 +75,8 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
   }
   return (
     <OptionsRowContainer>
-      <button type="button" onClick={() => onRemove(rowIndex)}>
-        remove
-      </button>
+      <VscChromeClose onClick={() => onRemove(rowIndex)} />
+
       <Select id="options" name="options" value={dropDown} onChange={onSelectChange}>
         {Object.keys(Store.options).map(key =>
           Store.options[key].isSelected ? null : (
@@ -106,6 +106,9 @@ const OptionsRowContainer = styled.div`
 
 const Select = styled.select`
   display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
   height: 27px;
   width: 238px;
 `;
@@ -114,4 +117,7 @@ const Input = styled.input.attrs((props: { isSmall: boolean }) => props)`
   display: flex;
   height: 27px;
   width: ${props => (props.isSmall ? `152px` : `238px`)};
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
 `;
