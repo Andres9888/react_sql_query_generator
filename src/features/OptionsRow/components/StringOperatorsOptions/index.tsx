@@ -13,10 +13,10 @@ export const StringOperatorsOptions = ({ operatorsSelected, onOperatorChange }: 
       value={operatorsSelected}
       onChange={e => onOperatorChange(e.target.value)}
     >
-      <option value="equals">Equals</option>
-      <option value="contains">Contains</option>
-      <option value="starts with">Starts with</option>
-      <option value="in list">In List</option>
+      <option value="=">Equals</option>
+      <option value="CONTAINS">Contains</option>
+      <option value="LIKE">Starts with</option>
+      <option value="IN">In List</option>
     </Select>
   );
 };

@@ -2,6 +2,7 @@ import './App.css';
 import { useContext, useState, useCallback } from 'react';
 
 import { observer } from 'mobx-react-lite';
+import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 
 import { OptionsRow } from './features';
@@ -22,6 +23,12 @@ const App = observer(() => {
     />,
   ]);
 
+  const filtered = Object.entries(Store.options).filter(([key, value]) => {
+    return value.userInput;
+  });
+
+  console.log(filtered.map(column => column));
+
   const onRemove = useCallback(
     rowIndex => {
       const newRows = [...rows];
@@ -30,17 +37,6 @@ const App = observer(() => {
     },
     [rows]
   );
-
-  function onSubmit() {
-    const filtered =
-      Object.entries(Store.options).filter(([key, value]) => {
-        return value.userInput;
-        // Pretty straightforward - use key for the key and value for the value.
-        // Just to clarify: unlike object destructuring, the parameter names don't matter here.
-      }) || '';
-
-    // setSql(filtered);
-  }
 
   function onClick() {
     if (rows.length < Object.keys(Store.options).length) {
@@ -52,14 +48,20 @@ const App = observer(() => {
   }
   return (
     <Container>
+      <Header>Search for Sessions</Header>
+      <OptionsRow key={0} rowIndex={0} onRemove={onRemove} />
       {rows}
       <button type="button" onClick={onClick}>
         add
       </button>
-      <button type="button" onClick={onSubmit}>
-        search
-      </button>
-      <h2>{sql}</h2>
+      <button type="button">search</button>
+      {filtered.map(column => {
+        return (
+          <h2
+            key={nanoid()}
+          >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</h2>
+        );
+      })}
     </Container>
   );
 });
@@ -72,5 +74,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: auto;
-  max-width: 840px;
+  width: 840px;
+`;
+
+const Header = styled.h2`
+  align-items: left;
+  align-self: start;
+  display: flex;
 `;

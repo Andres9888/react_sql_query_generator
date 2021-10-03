@@ -14,7 +14,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 
   const [dropDown, setdropdown] = useState('Domain');
   const [dropDownType, setdropdownType] = useState('string');
-  const [operatorsSelected, setOperatorsSelected] = useState('equals');
+  const [operatorsSelected, setOperatorsSelected] = useState('=');
   const [inputValue, setInputValue] = useState('');
 
   function onInputChange(e) {
@@ -95,12 +95,13 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 const OptionsRowContainer = styled.div`
   border: 1px solid #a2b0c2;
   border-radius: 3px;
+  box-sizing: border-box;
   display: flex;
   padding-bottom: 21px;
   padding-left: 17px;
   padding-right: 17px;
   padding-top: 21px;
-  width: 100%;
+  width: 840px;
 `;
 
 const Select = styled.select`
