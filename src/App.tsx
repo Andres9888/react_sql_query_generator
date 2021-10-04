@@ -27,8 +27,6 @@ const App = observer(() => {
     return value.userInput;
   });
 
-  console.log(filtered.map(column => column));
-
   const onRemove = useCallback(
     rowIndex => {
       const newRows = [...rows];
@@ -49,19 +47,16 @@ const App = observer(() => {
   return (
     <Container>
       <Header>Search for Sessions</Header>
-      <OptionsRow key={0} rowIndex={0} onRemove={onRemove} />
       {rows}
       <button type="button" onClick={onClick}>
         add
       </button>
       <button type="button">search</button>
-      {filtered.map(column => {
-        return (
-          <h2
-            key={nanoid()}
-          >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</h2>
-        );
-      })}
+      {filtered.map(column => (
+        <h2
+          key={nanoid()}
+        >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</h2>
+      ))}
     </Container>
   );
 });

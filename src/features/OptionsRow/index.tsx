@@ -70,16 +70,23 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
   };
 
   function onSelectChange(e) {
+    Store.options[dropDown].isSelected = false;
     setdropdown(e.target.value);
     setdropdownType(Store.options[e.target.value].type);
+    Store.options[dropDown].isSelected = true;
   }
   return (
     <OptionsRowContainer>
-      <VscChromeClose onClick={() => onRemove(rowIndex)} />
-
+      <RemoveWrapper>
+        <RemoveIcon onClick={() => onRemove(rowIndex)} />
+      </RemoveWrapper>
       <Select id="options" name="options" value={dropDown} onChange={onSelectChange}>
         {Object.keys(Store.options).map(key =>
-          Store.options[key].isSelected ? null : (
+          Store.options[key].isSelected ? (
+            <option key={key} disabled value={key}>
+              {key}
+            </option>
+          ) : (
             <option key={key} value={key}>
               {key}
             </option>
@@ -92,32 +99,44 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
   );
 };
 
+const RemoveWrapper = styled.div`
+  align-self: center;
+  display: flex;
+  width: 40px;
+`;
+
+const RemoveIcon = styled(VscChromeClose)`
+  margin: auto;
+`;
 const OptionsRowContainer = styled.div`
   border: 1px solid #a2b0c2;
   border-radius: 3px;
   box-sizing: border-box;
   display: flex;
   padding-bottom: 21px;
-  padding-left: 17px;
   padding-right: 17px;
   padding-top: 21px;
   width: 840px;
 `;
 
 const Select = styled.select`
+  border-radius: 3px;
   display: flex;
   font-family: 'Open Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  height: 27px;
+  font-size: 11px;
+  font-weight: 600;
+  height: 30px;
+  margin-right: 14px;
   width: 238px;
 `;
 
 const Input = styled.input.attrs((props: { isSmall: boolean }) => props)`
   display: flex;
-  height: 27px;
+  height: 30px;
   width: ${props => (props.isSmall ? `152px` : `238px`)};
   font-family: 'Open Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
+  font-size: 11px;
+  margin-left: 14px;
+  font-weight: 600;
+  border-radius: 3px;
 `;
