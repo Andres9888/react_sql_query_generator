@@ -58,11 +58,11 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 
     if (dropDownType === 'number' && operatorsSelected === 'between') {
       return (
-        <div>
+        <DoubleInputContainer>
           <Input isSmall type="text" value={inputValue} onChange={onInputChange} />
-          <h2>and</h2>
+          <Span>and</Span>
           <Input isSmall type="text" value={inputValue} onChange={onInputChange} />
-        </div>
+        </DoubleInputContainer>
       );
     }
 
@@ -113,6 +113,7 @@ const OptionsRowContainer = styled.div`
   border-radius: 3px;
   box-sizing: border-box;
   display: flex;
+  margin-bottom: 10px;
   padding-bottom: 21px;
   padding-right: 17px;
   padding-top: 21px;
@@ -139,4 +140,14 @@ const Input = styled.input.attrs((props: { isSmall: boolean }) => props)`
   margin-left: 14px;
   font-weight: 600;
   border-radius: 3px;
+`;
+
+const DoubleInputContainer = styled.div`
+  display: flex;
+`;
+
+const Span = styled.span`
+  border: 1px solid #a2b0c2;
+  border-radius: 3px;
+  display: flex;
 `;

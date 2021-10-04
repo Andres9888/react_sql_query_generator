@@ -48,9 +48,10 @@ const App = observer(() => {
     <Container>
       <Header>Search for Sessions</Header>
       {rows}
-      <button type="button" onClick={onClick}>
-        add
-      </button>
+      <AddButton type="button" onClick={onClick}>
+        Add
+      </AddButton>
+      <br />
       <button type="button">search</button>
       {filtered.map(column => (
         <h2
@@ -81,4 +82,15 @@ const Header = styled.h2`
   font-weight: 600;
   margin-bottom: 13px;
   margin-top: 40px;
+`;
+
+const AddButton = styled.button`
+  align-self: start;
+  background-color: #4da4f8;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
 `;
