@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 
+import { nanoid } from 'nanoid';
 import { VscChromeClose } from 'react-icons/vsc';
 import { StoreContext } from 'stores/store';
 import styled from 'styled-components';
@@ -20,7 +21,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
 
   function onInputChange(e) {
     setInputValue(e.target.value);
-    Store.options[dropDown].userInput = e.target.value;
+    Store.options[e.target.key].userInput = e.target.value;
   }
   function onOperatorChange(selectedOperator) {
     setOperatorsSelected(selectedOperator);
@@ -70,10 +71,10 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
   };
 
   function onSelectChange(e) {
-    Store.options[dropDown].isSelected = false;
+    // Store.options[dropDown].isSelected = false;
     setdropdown(e.target.value);
     setdropdownType(Store.options[e.target.value].type);
-    Store.options[dropDown].isSelected = true;
+    // Store.options[e.target.value].isSelected = true;
   }
   return (
     <OptionsRowContainer>
@@ -81,17 +82,11 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
         <RemoveIcon onClick={() => onRemove(rowIndex)} />
       </RemoveWrapper>
       <Select id="options" name="options" value={dropDown} onChange={onSelectChange}>
-        {Object.keys(Store.options).map(key =>
-          Store.options[key].isSelected ? (
-            <option key={key} disabled value={key}>
-              {key}
-            </option>
-          ) : (
-            <option key={key} value={key}>
-              {key}
-            </option>
-          )
-        )}
+        {Object.entries(Store.options).map(([key, property]) => (
+          <option key={nanoid()} value={key}>
+            {property.name}
+          </option>
+        ))}
       </Select>
       {renderOperatorsOptions()}
       {renderInput()}

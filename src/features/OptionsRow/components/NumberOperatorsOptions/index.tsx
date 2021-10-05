@@ -13,10 +13,10 @@ export const NumberOperatorsOptions = ({ onOperatorChange, operatorsSelected }: 
       value={operatorsSelected}
       onChange={e => onOperatorChange(e.target.value)}
     >
-      <option value="equals">Equals</option>
+      <option value="=">Equals</option>
       <option value="between">Between</option>
-      <option value="greater than">Greater than</option>
-      <option value="less than">Less than</option>
+      <option value=">">Greater than</option>
+      <option value="<">Less than</option>
     </Select>
   );
 };

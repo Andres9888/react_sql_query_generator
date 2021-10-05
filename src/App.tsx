@@ -10,7 +10,7 @@ import { StoreContext } from './stores/store';
 
 const App = observer(() => {
   const Store = useContext(StoreContext);
-  const [sql, setSql] = useState('Your Generated SQL Statement goes here:');
+  const [sql, setSql] = useState<string | JSX.Element[]>('Your Generated SQL Statement goes here:');
   const [rows, setRows] = useState([
     <OptionsRow
       key={0}
@@ -23,18 +23,35 @@ const App = observer(() => {
     />,
   ]);
 
-  const filtered = Object.entries(Store.options).filter(([key, value]) => {
-    return value.userInput;
-  });
-
   const onRemove = useCallback(
     rowIndex => {
       const newRows = [...rows];
+      console.log(rows);
+      console.log(newRows);
+      console.log(rowIndex);
       newRows.splice(rowIndex, 1);
       setRows(newRows);
     },
     [rows]
   );
+
+  // const onAdd = useCallback(() => {
+  //   const newRows = [...rows];
+  //   newRows.push(<OptionsRow key={nanoid()} rowIndex={newRows.length} onRemove={onRemove} />);
+  //   setRows(newRows);
+  // }, [rows, onRemove]);
+
+  const onGenerate = () => {
+    const filtered = Object.entries(Store.options).filter(([_key, value]) => {
+      return value.userInput;
+    });
+    const options = filtered.map(column => (
+      <h2
+        key={nanoid()}
+      >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</h2>
+    ));
+    setSql(options);
+  };
 
   function onClick() {
     if (rows.length < Object.keys(Store.options).length) {
@@ -52,12 +69,10 @@ const App = observer(() => {
         Add
       </AddButton>
       <br />
-      <button type="button">search</button>
-      {filtered.map(column => (
-        <h2
-          key={nanoid()}
-        >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</h2>
-      ))}
+      <SearchButton type="button" onClick={onGenerate}>
+        Search
+      </SearchButton>
+      {sql}
     </Container>
   );
 });
@@ -93,4 +108,21 @@ const AddButton = styled.button`
   font-family: 'Open Sans', sans-serif;
   font-size: 10px;
   font-weight: 600;
+  height: 30px;
+  padding-left: 17px;
+  padding-right: 17px;
+`;
+
+const SearchButton = styled.button`
+  align-self: start;
+  background-color: #4da4f8;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  height: 30px;
+  padding-left: 17px;
+  padding-right: 17px;
 `;
