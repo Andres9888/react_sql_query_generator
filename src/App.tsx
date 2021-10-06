@@ -14,32 +14,39 @@ const App = observer(() => {
   const [rows, setRows] = useState([
     <OptionsRow
       key={nanoid()}
-      rowIndex={0}
-      onRemove={useCallback(rowIndex => {
-        const newRows = [...rows];
-        newRows.splice(rowIndex, 1);
-        setRows(newRows);
-      }, [])}
+      rowId={nanoid()}
+      onRemove={rowId => {
+        if (rows.length > 1) {
+          setRows(prevRows => prevRows.filter(item => item.props.rowId !== rowId));
+        }
+      }}
     />,
   ]);
 
-  const onRemove = rowIndex => {
-    const newRows = rows.slice(0);
-
-    newRows.splice(rowIndex, 1);
-
-    setRows(newRows);
+  const onRemove = rowId => {
+    setRows(prevRows => prevRows.filter(item => item.props.rowId !== rowId));
   };
 
   const onGenerate = () => {
     const filtered = Object.entries(Store.options).filter(([_key, value]) => {
       return value.userInput;
     });
-    const options = filtered.map(column => (
-      <h2
-        key={nanoid()}
-      >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</h2>
-    ));
+    const options = filtered.map(column => {
+      if (typeof column[1].userInput === 'string') {
+        return (
+          <SqlStatement
+            key={nanoid()}
+          >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} '${column[1].userInput}'`}</SqlStatement>
+        );
+      }
+
+      return (
+        <SqlStatement
+          key={nanoid()}
+        >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</SqlStatement>
+      );
+    });
+
     setSql(options);
   };
 
@@ -47,7 +54,7 @@ const App = observer(() => {
     if (rows.length < Object.keys(Store.options).length) {
       setRows(prevRows => [
         ...prevRows,
-        <OptionsRow key={nanoid()} rowIndex={rows.length} onRemove={onRemove} />,
+        <OptionsRow key={nanoid()} rowId={nanoid()} onRemove={onRemove} />,
       ]);
     }
   }
@@ -59,9 +66,12 @@ const App = observer(() => {
         Add
       </AddButton>
       <br />
-      <SearchButton type="button" onClick={onGenerate}>
-        Search
-      </SearchButton>
+      <ButtonContainer>
+        <SearchButton type="button" onClick={onGenerate}>
+          Search
+        </SearchButton>
+        <ResetButton type="button">Reset</ResetButton>
+      </ButtonContainer>
       {sql}
     </Container>
   );
@@ -89,6 +99,13 @@ const Header = styled.h2`
   margin-top: 40px;
 `;
 
+const SqlStatement = styled.h2`
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
 const AddButton = styled.button`
   align-self: start;
   background-color: #4da4f8;
@@ -103,7 +120,28 @@ const AddButton = styled.button`
   padding-right: 17px;
 `;
 
+const ButtonContainer = styled.div`
+  align-self: flex-start;
+  display: flex;
+  flex-direction: row;
+`;
+
 const SearchButton = styled.button`
+  align-self: start;
+  background-color: #4da4f8;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  height: 30px;
+  margin-right: 30px;
+  padding-left: 17px;
+  padding-right: 17px;
+`;
+
+const ResetButton = styled.button`
   align-self: start;
   background-color: #4da4f8;
   border: none;

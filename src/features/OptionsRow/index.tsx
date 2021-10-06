@@ -9,10 +9,10 @@ import styled from 'styled-components';
 import { StringOperatorsOptions, NumberOperatorsOptions } from './components';
 
 interface Props {
-  rowIndex: number;
-  onRemove: (index: number) => void;
+  rowId: string;
+  onRemove: (id: string) => void;
 }
-export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
+export const OptionsRow = ({ rowId, onRemove }: Props) => {
   const Store = useContext(StoreContext);
 
   const [dropDown, setdropdown] = useState('domain');
@@ -86,7 +86,7 @@ export const OptionsRow = ({ rowIndex, onRemove }: Props) => {
         whileTap={{ scale: 0.98 }}
       >
         <RemoveWrapper>
-          <RemoveIcon onClick={() => onRemove(rowIndex)} />
+          <RemoveIcon onClick={() => onRemove(rowId)} />
         </RemoveWrapper>
         <Select id="options" name="options" value={dropDown} onChange={onSelectChange}>
           {Object.entries(Store.options).map(([key, property]) => (
