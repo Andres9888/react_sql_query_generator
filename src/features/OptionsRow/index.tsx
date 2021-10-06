@@ -28,6 +28,10 @@ export const OptionsRow = ({ rowId, onRemove }: Props) => {
     setOperatorsSelected(selectedOperator);
     Store.options[dropDown].operatorsSelected = selectedOperator;
   }
+  function onSelectChange(e) {
+    setdropdown(e.target.value);
+    setdropdownType(Store.options[e.target.value].type);
+  }
   const renderOperatorsOptions = () => {
     if (dropDownType === 'string') {
       return (
@@ -71,10 +75,6 @@ export const OptionsRow = ({ rowId, onRemove }: Props) => {
     return null;
   };
 
-  function onSelectChange(e) {
-    setdropdown(e.target.value);
-    setdropdownType(Store.options[e.target.value].type);
-  }
   return (
     <AnimatePresence>
       <OptionsRowContainer
@@ -109,11 +109,12 @@ const RemoveWrapper = styled.div`
 `;
 
 const RemoveIcon = styled(VscChromeClose)`
+  color: #56667c;
   margin: auto;
 `;
 const OptionsRowContainer = styled(motion.div)`
-  border: 1px solid #a2b0c2;
-  border-radius: 3px;
+  border: 1px solid #cdd4de;
+  border-radius: 5px;
   box-sizing: border-box;
   display: flex;
   margin-bottom: 10px;
@@ -127,8 +128,8 @@ const Select = styled.select`
   border-radius: 3px;
   display: flex;
   font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   height: 30px;
   margin-right: 14px;
   width: 238px;
@@ -139,9 +140,9 @@ const Input = styled.input.attrs((props: { isSmall: boolean }) => props)`
   height: 30px;
   width: ${props => (props.isSmall ? `152px` : `238px`)};
   font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
+  font-size: 16px;
   margin-left: 14px;
-  font-weight: 600;
+  font-weight: 400;
   border-radius: 3px;
 `;
 

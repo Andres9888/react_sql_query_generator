@@ -25,8 +25,8 @@ const Select = styled.select`
   border-radius: 3px;
   display: flex;
   font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   height: 30px;
   width: 238px;
 `;

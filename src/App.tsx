@@ -1,5 +1,5 @@
 import './App.css';
-import { useContext, useState, useCallback } from 'react';
+import { useContext, useState } from 'react';
 
 import { observer } from 'mobx-react-lite';
 import { nanoid } from 'nanoid';
@@ -32,19 +32,21 @@ const App = observer(() => {
       return value.userInput;
     });
     const options = filtered.map(column => {
-      if (typeof column[1].userInput === 'string') {
+      if (column[1].type === 'string') {
         return (
-          <SqlStatement
-            key={nanoid()}
-          >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} '${column[1].userInput}'`}</SqlStatement>
+          <SqlStatement key={nanoid()}>
+            {`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} '${column[1].userInput}'`}
+          </SqlStatement>
         );
       }
-
-      return (
-        <SqlStatement
-          key={nanoid()}
-        >{`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}</SqlStatement>
-      );
+      if (column[1].type === 'number') {
+        return (
+          <SqlStatement key={nanoid()}>
+            {`SELECT ${column[0]} FROM session WHERE ${column[0]} ${column[1].operatorsSelected} ${column[1].userInput}`}
+          </SqlStatement>
+        );
+      }
+      return <SqlStatement key={nanoid()}>Error with input type</SqlStatement>;
     });
 
     setSql(options);
@@ -72,7 +74,9 @@ const App = observer(() => {
         </SearchButton>
         <ResetButton type="button">Reset</ResetButton>
       </ButtonContainer>
-      {sql}
+      <SqlStatementContainer>
+        <SqlStatement>{sql}</SqlStatement>
+      </SqlStatementContainer>
     </Container>
   );
 });
@@ -93,17 +97,31 @@ const Header = styled.h2`
   align-self: start;
   display: flex;
   font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 13px;
   margin-top: 40px;
 `;
 
+const SqlStatementContainer = styled.div`
+  background-color: #ffffff;
+  border: 1px solid #cdd4de;
+  border-radius: 3px;
+  display: flex;
+  margin-top: 43px;
+  padding-bottom: 60px;
+  padding-top: 60px;
+  width: 100%;
+`;
+
 const SqlStatement = styled.h2`
   display: flex;
+  flex-direction: column;
   font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
+  margin: auto;
+  text-align: center;
 `;
 
 const AddButton = styled.button`
@@ -113,9 +131,11 @@ const AddButton = styled.button`
   border-radius: 4px;
   color: white;
   font-family: 'Open Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   height: 30px;
+  margin-bottom: 63px;
+  margin-top: 6px;
   padding-left: 17px;
   padding-right: 17px;
 `;
@@ -133,8 +153,8 @@ const SearchButton = styled.button`
   border-radius: 4px;
   color: white;
   font-family: 'Open Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   height: 30px;
   margin-right: 30px;
   padding-left: 17px;
@@ -148,8 +168,8 @@ const ResetButton = styled.button`
   border-radius: 4px;
   color: white;
   font-family: 'Open Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   height: 30px;
   padding-left: 17px;
   padding-right: 17px;
