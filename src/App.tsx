@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 
 import { observer } from 'mobx-react-lite';
 import { nanoid } from 'nanoid';
+import { FiSearch } from 'react-icons/fi';
 import styled from 'styled-components';
 
 import { OptionsRow } from './features';
@@ -25,6 +26,10 @@ const App = observer(() => {
 
   const onRemove = rowId => {
     setRows(prevRows => prevRows.filter(item => item.props.rowId !== rowId));
+  };
+
+  const onClear = () => {
+    setRows(prevRows => prevRows.splice(0, 1));
   };
 
   const onGenerate = () => {
@@ -70,9 +75,12 @@ const App = observer(() => {
       <br />
       <ButtonContainer>
         <SearchButton type="button" onClick={onGenerate}>
+          <FiSearch />
           Search
         </SearchButton>
-        <ResetButton type="button">Reset</ResetButton>
+        <ResetButton type="button" onClick={onClear}>
+          Reset
+        </ResetButton>
       </ButtonContainer>
       <SqlStatementContainer>
         <SqlStatement>{sql}</SqlStatement>
@@ -163,7 +171,7 @@ const SearchButton = styled.button`
 
 const ResetButton = styled.button`
   align-self: start;
-  background-color: #4da4f8;
+  background-color: #a8b5c6;
   border: none;
   border-radius: 4px;
   color: white;

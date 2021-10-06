@@ -82,8 +82,6 @@ export const OptionsRow = ({ rowId, onRemove }: Props) => {
         exit={{ x: -300, opacity: 0 }}
         initial={{ x: 300, opacity: 0 }}
         transition={{ ease: [0.17, 0.67, 0.83, 0.67] }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
       >
         <RemoveWrapper>
           <RemoveIcon onClick={() => onRemove(rowId)} />
