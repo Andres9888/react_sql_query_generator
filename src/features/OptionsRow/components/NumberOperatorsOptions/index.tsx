@@ -14,7 +14,7 @@ export const NumberOperatorsOptions = ({ onOperatorChange, operatorsSelected }: 
       onChange={e => onOperatorChange(e.target.value)}
     >
       <option value="=">Equals</option>
-      <option value="between">Between</option>
+      {/* <option value="between">Between</option> */}
       <option value=">">Greater than</option>
       <option value="<">Less than</option>
     </Select>

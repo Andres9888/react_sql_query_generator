@@ -13,7 +13,7 @@ const App = observer(() => {
   const [sql, setSql] = useState<string | JSX.Element[]>('Your Generated SQL Statement goes here:');
   const [rows, setRows] = useState([
     <OptionsRow
-      key={0}
+      key={nanoid()}
       rowIndex={0}
       onRemove={useCallback(rowIndex => {
         const newRows = [...rows];
@@ -23,23 +23,13 @@ const App = observer(() => {
     />,
   ]);
 
-  const onRemove = useCallback(
-    rowIndex => {
-      const newRows = [...rows];
-      console.log(rows);
-      console.log(newRows);
-      console.log(rowIndex);
-      newRows.splice(rowIndex, 1);
-      setRows(newRows);
-    },
-    [rows]
-  );
+  const onRemove = rowIndex => {
+    const newRows = rows.slice(0);
 
-  // const onAdd = useCallback(() => {
-  //   const newRows = [...rows];
-  //   newRows.push(<OptionsRow key={nanoid()} rowIndex={newRows.length} onRemove={onRemove} />);
-  //   setRows(newRows);
-  // }, [rows, onRemove]);
+    newRows.splice(rowIndex, 1);
+
+    setRows(newRows);
+  };
 
   const onGenerate = () => {
     const filtered = Object.entries(Store.options).filter(([_key, value]) => {
@@ -57,7 +47,7 @@ const App = observer(() => {
     if (rows.length < Object.keys(Store.options).length) {
       setRows(prevRows => [
         ...prevRows,
-        <OptionsRow key={rows.length} rowIndex={rows.length} onRemove={onRemove} />,
+        <OptionsRow key={nanoid()} rowIndex={rows.length} onRemove={onRemove} />,
       ]);
     }
   }
